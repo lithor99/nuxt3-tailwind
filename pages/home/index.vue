@@ -1,15 +1,26 @@
 <template>
     <div class="flex flex-col h-screen overflow-hidden">
-        <header class="w-full border-b border-grey p-2 m-0 dark:bg-gray-900  ">
+        <header class="w-full border-b border-grey p-2 m-0 custom-class ">
             <div class="p-2 flex flex-row justify-between">
                 <Icon icon="subway:world-1" color="#dddddd" width="2em" />
-                <Icon icon="mingcute:user-3-fill" color="#dddddd" width="2em" />
+                <div class="flex flex-row">
+
+                    <div v-if="darkTheme">
+                        <Icon class="mr-2" icon="line-md:moon-filled-loop" color="#dddddd" width="2em"
+                            @click="switchTheme()" />
+                    </div>
+                    <div v-if="!darkTheme">
+                        <Icon class="mr-2" icon="line-md:sun-rising-filled-loop" color="#dddddd" width="2em"
+                            @click="switchTheme()" />
+                    </div>
+                    <Icon icon="mingcute:user-3-fill" color="#dddddd" width="2em" />
+                </div>
             </div>
         </header>
         <main class="flex-1 overflow-y-scroll">
             <div class="bg-gray-200 relative overflow-x-auto shadow-md sm:rounded-lg mx-2 my-1">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-900 uppercase bg-gray-50 dark:bg-gray-900 dark:text-gray-100">
+                <table class="w-full text-sm text-left text-gray-500 custom-class">
+                    <thead class="text-xs text-gray-900 uppercase bg-gray-50 custom-class dark:text-gray-100">
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 Number
@@ -152,7 +163,7 @@
                                 <button type="button"
                                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                     data-modal-hide="defaultModal"
-                                    @click="showDialog = false, imgUrl = '', productname = ''">
+                                    @click="showDialog = false, imgUrl = '', productName = ''">
                                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 14 14">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -180,6 +191,9 @@
 <script setup>
 import { Icon } from '@iconify/vue';
 import { onMounted } from 'vue';
+import { useThemeStore } from '~/store/store';
+import { storeToRefs } from 'pinia'
+
 const page = ref(1);
 const limit = ref(10);
 const totalData = ref(100);
@@ -193,6 +207,10 @@ const showDialog = ref(false);
 const imgUrl = ref('');
 const productName = ref('');
 
+
+const themeStore = useThemeStore()
+const { switchTheme } = themeStore
+const { darkTheme } = storeToRefs(themeStore)
 const { pending: p, error: e, data: d } = await useFetch(`https://dummyjson.com/products?limit=${limit.value}&skip=${page.value * limit.value - limit.value}`);
 pending.value = p.value;
 error.value = e.value || {};
