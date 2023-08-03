@@ -2,7 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-.custom-class{
-    background-color: rgb(170, 115, 25);
-    color: black;
+.dark-theme {
+  background-color: rgb(35, 35, 35);
+  color: #dcdcdc;
+}
+.grey-dark-theme {
+  background-color: rgb(45, 45, 45);
+  color: #dcdcdc;
+}
+.hover-dark-theme {
+  background-color: rgb(40, 40, 40);
+}
+
+.light-theme {
+  background-color: rgb(235, 235, 235);
+  color: #1e1e1e;
+}
+.grey-light-theme {
+  background-color: rgb(225, 225, 225);
+  color: #1e1e1e;
+}
+.hover-light-theme {
+  background-color: rgb(230, 230, 230);
 }
